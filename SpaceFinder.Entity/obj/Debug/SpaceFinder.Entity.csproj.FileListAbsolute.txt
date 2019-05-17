@@ -1,0 +1,12 @@
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\SpaceFinder.Entity.dll.config
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\SpaceFinder.Entity.dll
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\SpaceFinder.Entity.pdb
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\EntityFramework.dll
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\EntityFramework.SqlServer.dll
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\EntityFramework.xml
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\bin\Debug\EntityFramework.SqlServer.xml
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\obj\Debug\SpaceFinder.Entity.csprojAssemblyReference.cache
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\obj\Debug\SpaceFinder.Entity.csproj.CoreCompileInputs.cache
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\obj\Debug\SpaceFinder.Entity.csproj.CopyComplete
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\obj\Debug\SpaceFinder.Entity.dll
+E:\Akash\Projects\SpaceFinder\SpaceFinder.Entity\obj\Debug\SpaceFinder.Entity.pdb

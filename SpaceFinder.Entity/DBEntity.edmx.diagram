@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4439f8ce70754c39b5f58f3bd7edb414" Name="Diagram1">
+        <EntityTypeShape EntityType="SpaceFinderModel.Company" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaceFinderModel.Flat" Width="1.5" PointX="7.5" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaceFinderModel.Photo" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaceFinderModel.Role" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaceFinderModel.User" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SpaceFinderModel.Video" Width="1.5" PointX="9.75" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="SpaceFinderModel.FK__Companies__UserI__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaceFinderModel.FK__Flats__CompanyId__1A14E395" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaceFinderModel.FK_Photos_Flats" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaceFinderModel.FK_Videos_Videos" ManuallyRouted="false" />
+        <AssociationConnector Association="SpaceFinderModel.FK__Users__RoleId__182C9B23" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

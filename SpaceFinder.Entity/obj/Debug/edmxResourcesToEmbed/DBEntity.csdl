@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SpaceFinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+    </Key>
+    <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Companies__UserI__1920BF5C" FromRole="Companies" ToRole="Users" />
+    <NavigationProperty Name="Flats" Relationship="Self.FK__Flats__CompanyId__1A14E395" FromRole="Companies" ToRole="Flats" />
+  </EntityType>
+  <EntityType Name="Flat">
+    <Key>
+      <PropertyRef Name="FlatId" />
+    </Key>
+    <Property Name="FlatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Company" Relationship="Self.FK__Flats__CompanyId__1A14E395" FromRole="Flats" ToRole="Companies" />
+    <NavigationProperty Name="Photos" Relationship="Self.FK_Photos_Flats" FromRole="Flats" ToRole="Photos" />
+    <NavigationProperty Name="Videos" Relationship="Self.FK_Videos_Videos" FromRole="Flats" ToRole="Videos" />
+  </EntityType>
+  <EntityType Name="Photo">
+    <Key>
+      <PropertyRef Name="PhotoId" />
+    </Key>
+    <Property Name="PhotoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FlatId" Type="Int32" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Flat" Relationship="Self.FK_Photos_Flats" FromRole="Photos" ToRole="Flats" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Users" Relationship="Self.FK__Users__RoleId__182C9B23" FromRole="Roles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <Property Name="RoleId" Type="Int32" />
+    <NavigationProperty Name="Companies" Relationship="Self.FK__Companies__UserI__1920BF5C" FromRole="Users" ToRole="Companies" />
+    <NavigationProperty Name="Role" Relationship="Self.FK__Users__RoleId__182C9B23" FromRole="Users" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Video">
+    <Key>
+      <PropertyRef Name="VideoId" />
+    </Key>
+    <Property Name="VideoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FlatId" Type="Int32" />
+    <Property Name="Active" Type="Boolean" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Flat" Relationship="Self.FK_Videos_Videos" FromRole="Videos" ToRole="Flats" />
+  </EntityType>
+  <Association Name="FK__Companies__UserI__1920BF5C">
+    <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Companies" Type="Self.Company" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Companies">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Flats__CompanyId__1A14E395">
+    <End Role="Companies" Type="Self.Company" Multiplicity="0..1" />
+    <End Role="Flats" Type="Self.Flat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Companies">
+        <PropertyRef Name="CompanyId" />
+      </Principal>
+      <Dependent Role="Flats">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Photos_Flats">
+    <End Role="Flats" Type="Self.Flat" Multiplicity="0..1" />
+    <End Role="Photos" Type="Self.Photo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flats">
+        <PropertyRef Name="FlatId" />
+      </Principal>
+      <Dependent Role="Photos">
+        <PropertyRef Name="FlatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Videos_Videos">
+    <End Role="Flats" Type="Self.Flat" Multiplicity="0..1" />
+    <End Role="Videos" Type="Self.Video" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Flats">
+        <PropertyRef Name="FlatId" />
+      </Principal>
+      <Dependent Role="Videos">
+        <PropertyRef Name="FlatId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Users__RoleId__182C9B23">
+    <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SpaceFinderEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Companies" EntityType="Self.Company" />
+    <EntitySet Name="Flats" EntityType="Self.Flat" />
+    <EntitySet Name="Photos" EntityType="Self.Photo" />
+    <EntitySet Name="Roles" EntityType="Self.Role" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Videos" EntityType="Self.Video" />
+    <AssociationSet Name="FK__Companies__UserI__1920BF5C" Association="Self.FK__Companies__UserI__1920BF5C">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Companies" EntitySet="Companies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Flats__CompanyId__1A14E395" Association="Self.FK__Flats__CompanyId__1A14E395">
+      <End Role="Companies" EntitySet="Companies" />
+      <End Role="Flats" EntitySet="Flats" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Photos_Flats" Association="Self.FK_Photos_Flats">
+      <End Role="Flats" EntitySet="Flats" />
+      <End Role="Photos" EntitySet="Photos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Videos_Videos" Association="Self.FK_Videos_Videos">
+      <End Role="Flats" EntitySet="Flats" />
+      <End Role="Videos" EntitySet="Videos" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Users__RoleId__182C9B23" Association="Self.FK__Users__RoleId__182C9B23">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

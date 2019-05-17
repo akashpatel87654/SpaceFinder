@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceFinder", "SpaceFinder\SpaceFinder.csproj", "{729D1EAD-AF52-46A5-ADFF-693706CE26F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpaceFinder.Entity", "SpaceFinder.Entity\SpaceFinder.Entity.csproj", "{EE0AF635-CD4A-4614-B78E-512971717445}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{729D1EAD-AF52-46A5-ADFF-693706CE26F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{729D1EAD-AF52-46A5-ADFF-693706CE26F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{729D1EAD-AF52-46A5-ADFF-693706CE26F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{729D1EAD-AF52-46A5-ADFF-693706CE26F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0AF635-CD4A-4614-B78E-512971717445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0AF635-CD4A-4614-B78E-512971717445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0AF635-CD4A-4614-B78E-512971717445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0AF635-CD4A-4614-B78E-512971717445}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA37E972-F3DE-4161-B103-4E2274FAC993}
+	EndGlobalSection
+EndGlobal
