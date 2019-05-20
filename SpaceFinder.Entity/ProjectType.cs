@@ -11,27 +11,21 @@ namespace SpaceFinder.Entity
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Flat
+    using System.ComponentModel.DataAnnotations;
+
+    public partial class ProjectType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Flat()
+        public ProjectType()
         {
-            this.Photos = new HashSet<Photo>();
-            this.Videos = new HashSet<Video>();
+            this.Projects = new HashSet<Project>();
         }
     
-        public int FlatId { get; set; }
-        public Nullable<int> CompanyId { get; set; }
+        [Key]
+        public int TypeId { get; set; }
         public string Name { get; set; }
-        public Nullable<bool> Active { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
-        public Nullable<System.DateTime> Modified { get; set; }
     
-        public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Photo> Photos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Video> Videos { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SpaceFinder.Entity;
+using SpaceFinder.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,21 @@ namespace SpaceFinder.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private IHomeRepository _homeRepository;
+
+        public HomeController()
         {
-            return View();
+            _homeRepository = new HomeRepository(new SpaceFinderEntities1());
+        }
+
+        public ActionResult Index(string searchText)
+        {
+            var result = _homeRepository.GetCompanies(searchText);
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                ViewBag.Name = searchText;
+            }
+            return View(result);
         }
 
         public ActionResult About()

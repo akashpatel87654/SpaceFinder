@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SpaceFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SpaceFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Companies">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -15,17 +15,14 @@
           <Property Name="Active" Type="bit" />
           <Property Name="Created" Type="datetime" />
           <Property Name="Modified" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Flats">
-          <Key>
-            <PropertyRef Name="FlatId" />
-          </Key>
-          <Property Name="FlatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CompanyId" Type="int" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Active" Type="bit" />
-          <Property Name="Created" Type="datetime" />
-          <Property Name="Modified" Type="datetime" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="TotalProjects" Type="int" />
+          <Property Name="OpenProjects" Type="int" />
+          <Property Name="Awards" Type="int" />
+          <Property Name="Customers" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Photos">
           <Key>
@@ -33,10 +30,34 @@
           </Key>
           <Property Name="PhotoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="FlatId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
           <Property Name="Active" Type="bit" />
           <Property Name="Created" Type="datetime" />
           <Property Name="Modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Projects">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Active" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Modified" Type="datetime" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="TotalUnits" Type="int" />
+          <Property Name="UnitSold" Type="int" />
+          <Property Name="UnitAvailable" Type="int" />
+          <Property Name="TypeId" Type="int" />
+          <Property Name="ContactNo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProjectTypes">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -58,6 +79,7 @@
           <Property Name="Created" Type="datetime" />
           <Property Name="Modified" Type="datetime" />
           <Property Name="RoleId" Type="int" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Videos">
           <Key>
@@ -65,7 +87,7 @@
           </Key>
           <Property Name="VideoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="FlatId" Type="int" />
+          <Property Name="ProjectId" Type="int" />
           <Property Name="Active" Type="bit" />
           <Property Name="Created" Type="datetime" />
           <Property Name="Modified" Type="datetime" />
@@ -83,13 +105,25 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Flats__CompanyId__1A14E395">
+          <End Role="ProjectTypes" Type="Self.ProjectTypes" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectTypes">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Projects">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Projects__Compan__3B75D760">
           <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
-          <End Role="Flats" Type="Self.Flats" Multiplicity="*" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Companies">
               <PropertyRef Name="CompanyId" />
             </Principal>
-            <Dependent Role="Flats">
+            <Dependent Role="Projects">
               <PropertyRef Name="CompanyId" />
             </Dependent>
           </ReferentialConstraint>
@@ -107,33 +141,34 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Photos_Flats">
-          <End Role="Flats" Type="Self.Flats" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
           <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Flats">
-              <PropertyRef Name="FlatId" />
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
             </Principal>
             <Dependent Role="Photos">
-              <PropertyRef Name="FlatId" />
+              <PropertyRef Name="ProjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Videos_Videos">
-          <End Role="Flats" Type="Self.Flats" Multiplicity="0..1" />
+          <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
           <End Role="Videos" Type="Self.Videos" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Flats">
-              <PropertyRef Name="FlatId" />
+            <Principal Role="Projects">
+              <PropertyRef Name="ProjectId" />
             </Principal>
             <Dependent Role="Videos">
-              <PropertyRef Name="FlatId" />
+              <PropertyRef Name="ProjectId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SpaceFinderModelStoreContainer">
           <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Flats" EntityType="Self.Flats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProjectTypes" EntityType="Self.ProjectTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
@@ -142,24 +177,27 @@
             <End Role="Companies" EntitySet="Companies" />
           </AssociationSet>
           <AssociationSet Name="FK__Flats__CompanyId__1A14E395" Association="Self.FK__Flats__CompanyId__1A14E395">
+            <End Role="ProjectTypes" EntitySet="ProjectTypes" />
+            <End Role="Projects" EntitySet="Projects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Projects__Compan__3B75D760" Association="Self.FK__Projects__Compan__3B75D760">
             <End Role="Companies" EntitySet="Companies" />
-            <End Role="Flats" EntitySet="Flats" />
+            <End Role="Projects" EntitySet="Projects" />
           </AssociationSet>
           <AssociationSet Name="FK__Users__RoleId__182C9B23" Association="Self.FK__Users__RoleId__182C9B23">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Photos_Flats" Association="Self.FK_Photos_Flats">
-            <End Role="Flats" EntitySet="Flats" />
+            <End Role="Projects" EntitySet="Projects" />
             <End Role="Photos" EntitySet="Photos" />
           </AssociationSet>
           <AssociationSet Name="FK_Videos_Videos" Association="Self.FK_Videos_Videos">
-            <End Role="Flats" EntitySet="Flats" />
+            <End Role="Projects" EntitySet="Projects" />
             <End Role="Videos" EntitySet="Videos" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SpaceFinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -174,33 +212,15 @@
           <Property Name="Created" Type="DateTime" Precision="3" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK__Companies__UserI__1920BF5C" FromRole="Companies" ToRole="Users" />
-          <NavigationProperty Name="Flats" Relationship="Self.FK__Flats__CompanyId__1A14E395" FromRole="Companies" ToRole="Flats" />
-        </EntityType>
-        <EntityType Name="Flat">
-          <Key>
-            <PropertyRef Name="FlatId" />
-          </Key>
-          <Property Name="FlatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CompanyId" Type="Int32" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Active" Type="Boolean" />
-          <Property Name="Created" Type="DateTime" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Company" Relationship="Self.FK__Flats__CompanyId__1A14E395" FromRole="Flats" ToRole="Companies" />
-          <NavigationProperty Name="Photos" Relationship="Self.FK_Photos_Flats" FromRole="Flats" ToRole="Photos" />
-          <NavigationProperty Name="Videos" Relationship="Self.FK_Videos_Videos" FromRole="Flats" ToRole="Videos" />
-        </EntityType>
-        <EntityType Name="Photo">
-          <Key>
-            <PropertyRef Name="PhotoId" />
-          </Key>
-          <Property Name="PhotoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FlatId" Type="Int32" />
-          <Property Name="Active" Type="Boolean" />
-          <Property Name="Created" Type="DateTime" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Flat" Relationship="Self.FK_Photos_Flats" FromRole="Photos" ToRole="Flats" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TotalProjects" Type="Int32" />
+          <Property Name="OpenProjects" Type="Int32" />
+          <Property Name="Awards" Type="Int32" />
+          <Property Name="Customers" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="SpaceFinderModel.FK__Projects__Compan__3B75D760" FromRole="Company" ToRole="Project" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -225,18 +245,7 @@
           <Property Name="RoleId" Type="Int32" />
           <NavigationProperty Name="Companies" Relationship="Self.FK__Companies__UserI__1920BF5C" FromRole="Users" ToRole="Companies" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Users__RoleId__182C9B23" FromRole="Users" ToRole="Roles" />
-        </EntityType>
-        <EntityType Name="Video">
-          <Key>
-            <PropertyRef Name="VideoId" />
-          </Key>
-          <Property Name="VideoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FlatId" Type="Int32" />
-          <Property Name="Active" Type="Boolean" />
-          <Property Name="Created" Type="DateTime" Precision="3" />
-          <Property Name="Modified" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Flat" Relationship="Self.FK_Videos_Videos" FromRole="Videos" ToRole="Flats" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Companies__UserI__1920BF5C">
           <End Role="Users" Type="Self.User" Multiplicity="0..1" />
@@ -247,42 +256,6 @@
             </Principal>
             <Dependent Role="Companies">
               <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Flats__CompanyId__1A14E395">
-          <End Role="Companies" Type="Self.Company" Multiplicity="0..1" />
-          <End Role="Flats" Type="Self.Flat" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Companies">
-              <PropertyRef Name="CompanyId" />
-            </Principal>
-            <Dependent Role="Flats">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Photos_Flats">
-          <End Role="Flats" Type="Self.Flat" Multiplicity="0..1" />
-          <End Role="Photos" Type="Self.Photo" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Flats">
-              <PropertyRef Name="FlatId" />
-            </Principal>
-            <Dependent Role="Photos">
-              <PropertyRef Name="FlatId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Videos_Videos">
-          <End Role="Flats" Type="Self.Flat" Multiplicity="0..1" />
-          <End Role="Videos" Type="Self.Video" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Flats">
-              <PropertyRef Name="FlatId" />
-            </Principal>
-            <Dependent Role="Videos">
-              <PropertyRef Name="FlatId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -300,32 +273,138 @@
         </Association>
         <EntityContainer Name="SpaceFinderEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Companies" EntityType="Self.Company" />
-          <EntitySet Name="Flats" EntityType="Self.Flat" />
-          <EntitySet Name="Photos" EntityType="Self.Photo" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="Videos" EntityType="Self.Video" />
           <AssociationSet Name="FK__Companies__UserI__1920BF5C" Association="Self.FK__Companies__UserI__1920BF5C">
             <End Role="Users" EntitySet="Users" />
             <End Role="Companies" EntitySet="Companies" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Flats__CompanyId__1A14E395" Association="Self.FK__Flats__CompanyId__1A14E395">
-            <End Role="Companies" EntitySet="Companies" />
-            <End Role="Flats" EntitySet="Flats" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Photos_Flats" Association="Self.FK_Photos_Flats">
-            <End Role="Flats" EntitySet="Flats" />
-            <End Role="Photos" EntitySet="Photos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Videos_Videos" Association="Self.FK_Videos_Videos">
-            <End Role="Flats" EntitySet="Flats" />
-            <End Role="Videos" EntitySet="Videos" />
           </AssociationSet>
           <AssociationSet Name="FK__Users__RoleId__182C9B23" Association="Self.FK__Users__RoleId__182C9B23">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="Projects" EntityType="SpaceFinderModel.Project" />
+          <EntitySet Name="ProjectTypes" EntityType="SpaceFinderModel.ProjectType" />
+          <AssociationSet Name="FK__Flats__CompanyId__1A14E3951" Association="SpaceFinderModel.FK__Flats__CompanyId__1A14E3951">
+            <End Role="ProjectType" EntitySet="ProjectTypes" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
+          <EntitySet Name="Photos" EntityType="SpaceFinderModel.Photo" />
+          <EntitySet Name="Videos" EntityType="SpaceFinderModel.Video" />
+          <AssociationSet Name="FK_Photos_Flats" Association="SpaceFinderModel.FK_Photos_Flats">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Photo" EntitySet="Photos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Videos_Videos" Association="SpaceFinderModel.FK_Videos_Videos">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="Video" EntitySet="Videos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Projects__Compan__3B75D760" Association="SpaceFinderModel.FK__Projects__Compan__3B75D760">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Project" EntitySet="Projects" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="ProjectId" />
+          </Key>
+          <Property Name="ProjectId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalUnits" Type="Int32" />
+          <Property Name="UnitSold" Type="Int32" />
+          <Property Name="UnitAvailable" Type="Int32" />
+          <Property Name="TypeId" Type="Int32" />
+          <Property Name="ContactNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProjectType" Relationship="SpaceFinderModel.FK__Flats__CompanyId__1A14E3951" FromRole="Project" ToRole="ProjectType" />
+          <NavigationProperty Name="Photos" Relationship="SpaceFinderModel.FK_Photos_Flats" FromRole="Project" ToRole="Photo" />
+          <NavigationProperty Name="Videos" Relationship="SpaceFinderModel.FK_Videos_Videos" FromRole="Project" ToRole="Video" />
+          <NavigationProperty Name="Company" Relationship="SpaceFinderModel.FK__Projects__Compan__3B75D760" FromRole="Project" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="ProjectType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Projects" Relationship="SpaceFinderModel.FK__Flats__CompanyId__1A14E3951" FromRole="ProjectType" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK__Flats__CompanyId__1A14E3951">
+          <End Type="SpaceFinderModel.ProjectType" Role="ProjectType" Multiplicity="0..1" />
+          <End Type="SpaceFinderModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProjectType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Photo">
+          <Key>
+            <PropertyRef Name="PhotoId" />
+          </Key>
+          <Property Name="PhotoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Project" Relationship="SpaceFinderModel.FK_Photos_Flats" FromRole="Photo" ToRole="Project" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="VideoId" />
+          </Key>
+          <Property Name="VideoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="Active" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Project" Relationship="SpaceFinderModel.FK_Videos_Videos" FromRole="Video" ToRole="Project" />
+        </EntityType>
+        <Association Name="FK_Photos_Flats">
+          <End Type="SpaceFinderModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="SpaceFinderModel.Photo" Role="Photo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Photo">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Videos_Videos">
+          <End Type="SpaceFinderModel.Project" Role="Project" Multiplicity="0..1" />
+          <End Type="SpaceFinderModel.Video" Role="Video" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="ProjectId" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Projects__Compan__3B75D760">
+          <End Type="SpaceFinderModel.Company" Role="Company" Multiplicity="0..1" />
+          <End Type="SpaceFinderModel.Project" Role="Project" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Project">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -335,33 +414,17 @@
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="SpaceFinderModel.Company">
               <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Customers" ColumnName="Customers" />
+                <ScalarProperty Name="Awards" ColumnName="Awards" />
+                <ScalarProperty Name="OpenProjects" ColumnName="OpenProjects" />
+                <ScalarProperty Name="TotalProjects" ColumnName="TotalProjects" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Flats">
-            <EntityTypeMapping TypeName="SpaceFinderModel.Flat">
-              <MappingFragment StoreEntitySet="Flats">
-                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
-                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Modified" ColumnName="Modified" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Photos">
-            <EntityTypeMapping TypeName="SpaceFinderModel.Photo">
-              <MappingFragment StoreEntitySet="Photos">
-                <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
                 <ScalarProperty Name="Active" ColumnName="Active" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
@@ -379,6 +442,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="SpaceFinderModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -391,15 +455,53 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="SpaceFinderModel.Project">
+              <MappingFragment StoreEntitySet="Projects">
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="UnitAvailable" ColumnName="UnitAvailable" />
+                <ScalarProperty Name="UnitSold" ColumnName="UnitSold" />
+                <ScalarProperty Name="TotalUnits" ColumnName="TotalUnits" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProjectTypes">
+            <EntityTypeMapping TypeName="SpaceFinderModel.ProjectType">
+              <MappingFragment StoreEntitySet="ProjectTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Photos">
+            <EntityTypeMapping TypeName="SpaceFinderModel.Photo">
+              <MappingFragment StoreEntitySet="Photos">
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Videos">
             <EntityTypeMapping TypeName="SpaceFinderModel.Video">
               <MappingFragment StoreEntitySet="Videos">
-                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

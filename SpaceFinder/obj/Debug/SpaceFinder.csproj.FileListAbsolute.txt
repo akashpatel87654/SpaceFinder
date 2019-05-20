@@ -1,3 +1,5 @@
+E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.csprojAssemblyReference.cache
+E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.csproj.CoreCompileInputs.cache
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\SpaceFinder.dll.config
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\SpaceFinder.dll
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\SpaceFinder.pdb
@@ -80,8 +82,6 @@ E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\Antlr3.Runtime.pdb
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\System.Diagnostics.DiagnosticSource.xml
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 E:\Akash\Projects\SpaceFinder\SpaceFinder\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.csprojAssemblyReference.cache
-E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.csproj.CoreCompileInputs.cache
 E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.csproj.CopyComplete
 E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.dll
 E:\Akash\Projects\SpaceFinder\SpaceFinder\obj\Debug\SpaceFinder.pdb

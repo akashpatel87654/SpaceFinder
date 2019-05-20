@@ -12,31 +12,33 @@ namespace SpaceFinder.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Company
+    public partial class Project
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Company()
+        public Project()
         {
-            this.Projects = new HashSet<Project>();
+            this.Photos = new HashSet<Photo>();
+            this.Videos = new HashSet<Video>();
         }
     
-        public int CompanyId { get; set; }
+        public int ProjectId { get; set; }
+        public Nullable<int> CompanyId { get; set; }
         public string Name { get; set; }
-        public Nullable<int> UserId { get; set; }
         public Nullable<bool> Active { get; set; }
         public Nullable<System.DateTime> Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
-        public string Email { get; set; }
-        public string ContactNo { get; set; }
         public string Address { get; set; }
-        public Nullable<int> TotalProjects { get; set; }
-        public Nullable<int> OpenProjects { get; set; }
-        public Nullable<int> Awards { get; set; }
-        public Nullable<int> Customers { get; set; }
-        public string Description { get; set; }
+        public Nullable<int> TotalUnits { get; set; }
+        public Nullable<int> UnitSold { get; set; }
+        public Nullable<int> UnitAvailable { get; set; }
+        public Nullable<int> TypeId { get; set; }
+        public string ContactNo { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual ProjectType ProjectType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Video> Videos { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

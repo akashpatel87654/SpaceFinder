@@ -68,10 +68,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBEntity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Flat.cs">
+    <Compile Include="Photo.cs">
       <DependentUpon>DBEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Photo.cs">
+    <Compile Include="Project.cs">
+      <DependentUpon>DBEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectType.cs">
       <DependentUpon>DBEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +87,8 @@
     <Compile Include="Video.cs">
       <DependentUpon>DBEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\ProjectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

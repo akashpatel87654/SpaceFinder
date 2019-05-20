@@ -4,33 +4,17 @@
     <EntitySetMapping Name="Companies">
       <EntityTypeMapping TypeName="SpaceFinderModel.Company">
         <MappingFragment StoreEntitySet="Companies">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Customers" ColumnName="Customers" />
+          <ScalarProperty Name="Awards" ColumnName="Awards" />
+          <ScalarProperty Name="OpenProjects" ColumnName="OpenProjects" />
+          <ScalarProperty Name="TotalProjects" ColumnName="TotalProjects" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="Modified" ColumnName="Modified" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Flats">
-      <EntityTypeMapping TypeName="SpaceFinderModel.Flat">
-        <MappingFragment StoreEntitySet="Flats">
-          <ScalarProperty Name="FlatId" ColumnName="FlatId" />
-          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
-          <ScalarProperty Name="Modified" ColumnName="Modified" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Photos">
-      <EntityTypeMapping TypeName="SpaceFinderModel.Photo">
-        <MappingFragment StoreEntitySet="Photos">
-          <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="FlatId" ColumnName="FlatId" />
           <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="Modified" ColumnName="Modified" />
@@ -48,6 +32,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="SpaceFinderModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -60,15 +45,53 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Projects">
+      <EntityTypeMapping TypeName="SpaceFinderModel.Project">
+        <MappingFragment StoreEntitySet="Projects">
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="UnitAvailable" ColumnName="UnitAvailable" />
+          <ScalarProperty Name="UnitSold" ColumnName="UnitSold" />
+          <ScalarProperty Name="TotalUnits" ColumnName="TotalUnits" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectTypes">
+      <EntityTypeMapping TypeName="SpaceFinderModel.ProjectType">
+        <MappingFragment StoreEntitySet="ProjectTypes">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Photos">
+      <EntityTypeMapping TypeName="SpaceFinderModel.Photo">
+        <MappingFragment StoreEntitySet="Photos">
+          <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Videos">
       <EntityTypeMapping TypeName="SpaceFinderModel.Video">
         <MappingFragment StoreEntitySet="Videos">
-          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="FlatId" ColumnName="FlatId" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="Modified" ColumnName="Modified" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

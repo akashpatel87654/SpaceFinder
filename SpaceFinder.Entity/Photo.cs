@@ -16,11 +16,11 @@ namespace SpaceFinder.Entity
     {
         public int PhotoId { get; set; }
         public string Name { get; set; }
-        public Nullable<int> FlatId { get; set; }
+        public Nullable<int> ProjectId { get; set; }
         public Nullable<bool> Active { get; set; }
         public Nullable<System.DateTime> Created { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
     
-        public virtual Flat Flat { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

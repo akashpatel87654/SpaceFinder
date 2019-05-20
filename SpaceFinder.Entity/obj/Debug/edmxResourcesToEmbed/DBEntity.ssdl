@@ -10,17 +10,14 @@
     <Property Name="Active" Type="bit" />
     <Property Name="Created" Type="datetime" />
     <Property Name="Modified" Type="datetime" />
-  </EntityType>
-  <EntityType Name="Flats">
-    <Key>
-      <PropertyRef Name="FlatId" />
-    </Key>
-    <Property Name="FlatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CompanyId" Type="int" />
-    <Property Name="Name" Type="nvarchar" MaxLength="50" />
-    <Property Name="Active" Type="bit" />
-    <Property Name="Created" Type="datetime" />
-    <Property Name="Modified" Type="datetime" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="ContactNo" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="50" />
+    <Property Name="TotalProjects" Type="int" />
+    <Property Name="OpenProjects" Type="int" />
+    <Property Name="Awards" Type="int" />
+    <Property Name="Customers" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Photos">
     <Key>
@@ -28,10 +25,34 @@
     </Key>
     <Property Name="PhotoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
-    <Property Name="FlatId" Type="int" />
+    <Property Name="ProjectId" Type="int" />
     <Property Name="Active" Type="bit" />
     <Property Name="Created" Type="datetime" />
     <Property Name="Modified" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Projects">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyId" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Active" Type="bit" />
+    <Property Name="Created" Type="datetime" />
+    <Property Name="Modified" Type="datetime" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="TotalUnits" Type="int" />
+    <Property Name="UnitSold" Type="int" />
+    <Property Name="UnitAvailable" Type="int" />
+    <Property Name="TypeId" Type="int" />
+    <Property Name="ContactNo" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ProjectTypes">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Roles">
     <Key>
@@ -53,6 +74,7 @@
     <Property Name="Created" Type="datetime" />
     <Property Name="Modified" Type="datetime" />
     <Property Name="RoleId" Type="int" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Videos">
     <Key>
@@ -60,7 +82,7 @@
     </Key>
     <Property Name="VideoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="50" />
-    <Property Name="FlatId" Type="int" />
+    <Property Name="ProjectId" Type="int" />
     <Property Name="Active" Type="bit" />
     <Property Name="Created" Type="datetime" />
     <Property Name="Modified" Type="datetime" />
@@ -78,13 +100,25 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__Flats__CompanyId__1A14E395">
+    <End Role="ProjectTypes" Type="Self.ProjectTypes" Multiplicity="0..1" />
+    <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectTypes">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Projects">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Projects__Compan__3B75D760">
     <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
-    <End Role="Flats" Type="Self.Flats" Multiplicity="*" />
+    <End Role="Projects" Type="Self.Projects" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Companies">
         <PropertyRef Name="CompanyId" />
       </Principal>
-      <Dependent Role="Flats">
+      <Dependent Role="Projects">
         <PropertyRef Name="CompanyId" />
       </Dependent>
     </ReferentialConstraint>
@@ -102,33 +136,34 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Photos_Flats">
-    <End Role="Flats" Type="Self.Flats" Multiplicity="0..1" />
+    <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
     <End Role="Photos" Type="Self.Photos" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Flats">
-        <PropertyRef Name="FlatId" />
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectId" />
       </Principal>
       <Dependent Role="Photos">
-        <PropertyRef Name="FlatId" />
+        <PropertyRef Name="ProjectId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_Videos_Videos">
-    <End Role="Flats" Type="Self.Flats" Multiplicity="0..1" />
+    <End Role="Projects" Type="Self.Projects" Multiplicity="0..1" />
     <End Role="Videos" Type="Self.Videos" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Flats">
-        <PropertyRef Name="FlatId" />
+      <Principal Role="Projects">
+        <PropertyRef Name="ProjectId" />
       </Principal>
       <Dependent Role="Videos">
-        <PropertyRef Name="FlatId" />
+        <PropertyRef Name="ProjectId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="SpaceFinderModelStoreContainer">
     <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Flats" EntityType="Self.Flats" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Photos" EntityType="Self.Photos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Projects" EntityType="Self.Projects" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectTypes" EntityType="Self.ProjectTypes" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Videos" EntityType="Self.Videos" Schema="dbo" store:Type="Tables" />
@@ -137,19 +172,23 @@
       <End Role="Companies" EntitySet="Companies" />
     </AssociationSet>
     <AssociationSet Name="FK__Flats__CompanyId__1A14E395" Association="Self.FK__Flats__CompanyId__1A14E395">
+      <End Role="ProjectTypes" EntitySet="ProjectTypes" />
+      <End Role="Projects" EntitySet="Projects" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Projects__Compan__3B75D760" Association="Self.FK__Projects__Compan__3B75D760">
       <End Role="Companies" EntitySet="Companies" />
-      <End Role="Flats" EntitySet="Flats" />
+      <End Role="Projects" EntitySet="Projects" />
     </AssociationSet>
     <AssociationSet Name="FK__Users__RoleId__182C9B23" Association="Self.FK__Users__RoleId__182C9B23">
       <End Role="Roles" EntitySet="Roles" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
     <AssociationSet Name="FK_Photos_Flats" Association="Self.FK_Photos_Flats">
-      <End Role="Flats" EntitySet="Flats" />
+      <End Role="Projects" EntitySet="Projects" />
       <End Role="Photos" EntitySet="Photos" />
     </AssociationSet>
     <AssociationSet Name="FK_Videos_Videos" Association="Self.FK_Videos_Videos">
-      <End Role="Flats" EntitySet="Flats" />
+      <End Role="Projects" EntitySet="Projects" />
       <End Role="Videos" EntitySet="Videos" />
     </AssociationSet>
   </EntityContainer>
