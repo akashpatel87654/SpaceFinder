@@ -14,5 +14,10 @@ namespace SpaceFinder.Repository
         {
             _context = userContext;
         }
+
+        public List<UserViewModel> GetUsers()
+        {
+            return _context.GetUsers();
+        }
     }
 }

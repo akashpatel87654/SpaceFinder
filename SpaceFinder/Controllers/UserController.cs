@@ -19,7 +19,8 @@ namespace SpaceFinder.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var result = _userRepository.GetUsers();
+            return View(result);
         }
 
         public ActionResult Create()

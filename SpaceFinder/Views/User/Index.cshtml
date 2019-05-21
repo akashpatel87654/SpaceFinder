@@ -1,5 +1,236 @@
-﻿
+﻿@model IEnumerable<SpaceFinder.Entity.UserViewModel>
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+<html>
+<head>
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" type="text/css" />
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/Custom/aos.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <style>
+        .container {
+            max-width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 10px;
+        }
+
+        .table {
+            width: 100%;
+            border: 1px solid #000 !important;
+            color: black;
+            text-align: center;
+        }
+
+        .table-header {
+            font: bold;
+        }
+
+        .dataTables_filter {
+            text-align: right;
+            color: black;
+        }
+
+            .dataTables_filter label input {
+                outline: 0;
+                width: 12.5rem;
+                padding: .4375rem .875rem;
+                padding-right: 0.875rem;
+                padding-right: 2rem;
+                font-size: .8125rem;
+                line-height: 1.5385;
+                color: #333;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-radius: .1875rem;
+                margin-left: 5px;
+            }
+
+        .dataTables_length {
+            float: left;
+            color: black;
+        }
+
+            .dataTables_length label select {
+                height: 2.25003rem;
+                padding: .4375rem .875rem;
+                font-size: .8125rem;
+                line-height: 1.5385;
+                color: #333;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                outline: 0;
+            }
+
+        .dataTables_info {
+            float: left;
+            padding: .4375rem 0;
+            margin-bottom: 1.25rem;
+            padding-left: 8px;
+        }
+
+        .dataTables_paginate {
+            float: right;
+            text-align: right;
+            margin: 0 0 1.25rem 1.25rem;
+        }
+
+            .dataTables_paginate .paginate_button.disabled, .dataTables_paginate .paginate_button.disabled:focus, .dataTables_paginate .paginate_button.disabled:hover {
+                cursor: default;
+                background-color: #fff;
+                color: #999;
+            }
+
+            .dataTables_paginate .paginate_button:first-child {
+                margin-left: 0;
+            }
+
+            .dataTables_paginate .paginate_button {
+                display: inline-block;
+                padding: .4375rem;
+                min-width: 2.25003rem;
+                margin-left: .125rem;
+                text-align: center;
+                text-decoration: none;
+                cursor: pointer;
+                color: #333;
+                outline: 0;
+                border: 1px solid transparent;
+                border-radius: .1875rem;
+                transition: all ease-in-out .15s;
+            }
+
+        .addButton {
+            animation: pulse 2s infinite !important;
+            width: 70px !important;
+            height: 70px !important;
+            background: #eac15a !important;
+            -webkit-animation: pulse 2s infinite !important;
+            -webkit-border-radius: 50% !important;
+            -moz-border-radius: 50% !important;
+            -ms-border-radius: 50% !important;
+            border-radius: 50% !important;
+        }
+
+        table {
+            counter-reset: tableCount;
+        }
+
+        .counterCell:before {
+            content: counter(tableCount);
+            counter-increment: tableCount;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-wrap hero-wrap-2" style="background-image: url('@Url.Content("~/images/bg4.PNG")');height:375px;" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text align-items-end justify-content-center" style="height: 400px !important;">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <h1 class="mb-3 bread">Users</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a href="@Url.Action("Index","Home")">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>Users <i class="ion-ios-arrow-forward"></i></span></p>
+                    <div style="justify-content: center !important;display: flex !important;">
+
+                        <button type="button" id="addUser" class="icon-video popup-vimeo d-flex justify-content-center align-items-center addButton" title="Add User"><span><i class="icon-add_box" style="font-size:30px;color:black"></i></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered text-nowrap" cellpadding="10" cellspacing="10" id="Users">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>@Html.DisplayName("Full Name")</th>
+                        <th>@Html.DisplayName("User Name")</th>
+                        <th>@Html.DisplayName("Email")</th>
+                        <th>@Html.DisplayName("Role")</th>
+                        <th>@Html.DisplayName("Status")</th>
+                        <th>@Html.DisplayName("Actions")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SpaceFinder.Entity.UserViewModel obj in Model)
+                    {
+                        <tr>
+                            <td class="counterCell"></td>
+                            <td>@obj.FirstName  @obj.LastName</td>
+                            <td>@Html.DisplayFor(modelItem => obj.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => obj.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => obj.RoleName)</td>
+
+                            @if (obj.Active)
+                            {
+                                <td class="text-success">Active</td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">In Active</td>
+                            }
+
+                            <td>
+                                <a href="~/User/Edit/@obj.UserId" title="Edit"><i class="icon-pencil text-info"></i></a> |
+                                <a href="~/User/Delete/@obj.UserId" title="Delete"><i class="icon-trash text-danger"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    @Html.Partial("_AddEditUser")
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('#Users').DataTable({
+            "dom": '<lf<t>ip>'
+        });
+    });
+
+    $('#addUser').click(function () {
+        $('#UserAddEditModal').modal('show');
+    });
+
+    $('#btnSubmit').click(function () {
+        debugger;
+        $('#userForm').validate({ // initialize the plugin
+            rules: {
+                FirstName: {
+                    required: true,
+                    maxlength: 6
+                },
+                LastName: {
+                    required: true,
+                    maxlength: 6
+                },
+                UserName: {
+                    required: true,
+                    maxlength: 10
+                },
+                Password: {
+                    required: true,
+                    maxlength: 12,
+                    minlenght : 4
+                },
+                Email: {
+                    email: true
+                }
+            },
+            submitHandler: function (form) { // for demo
+                alert('valid form submitted'); // for demo
+                return false; // for demo
+            }
+        });
+
+    });
+</script>

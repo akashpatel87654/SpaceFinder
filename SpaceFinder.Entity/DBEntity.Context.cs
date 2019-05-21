@@ -51,6 +51,16 @@ namespace SpaceFinder.Entity
             }
         }
 
+
+        #region Users
+
+        public List<UserViewModel> GetUsers()
+        {
+            return Database.SqlQuery<UserViewModel>("UsersGetAll").ToList();
+        }
+
+        #endregion
+
         #endregion
     }
 }

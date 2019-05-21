@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceFinder.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace SpaceFinder.Repository
 {
     public interface IUserRepository
     {
+        List<UserViewModel> GetUsers();
     }
 }
