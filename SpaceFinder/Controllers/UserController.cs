@@ -1,4 +1,5 @@
-﻿using SpaceFinder.Entity;
+﻿using Newtonsoft.Json;
+using SpaceFinder.Entity;
 using SpaceFinder.Repository;
 using System;
 using System.Collections.Generic;
@@ -23,26 +24,65 @@ namespace SpaceFinder.Controllers
             return View(result);
         }
 
-        public ActionResult Create()
+        [HttpPost]
+        public JsonResult Create(User model)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    model.Active = true;
+                    _userRepository.InsertUser(model);
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         [HttpPost]
-        public ActionResult Create(User user)
+        public JsonResult GetUserById(int id)
         {
-            return View();
+            var result = _userRepository.GetUserById(id);
+            return Json(new
+            {
+                result.UserId,
+                result.FirstName,
+                result.LastName,
+                result.UserName,
+                result.Email,
+                result.Password,
+                result.RoleId
+            }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Edit()
-        {
-            return View();
-        }
+
 
         [HttpPost]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(User model)
         {
-            return View();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _userRepository.UpdateUser(model);
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public ActionResult Delete(int id)

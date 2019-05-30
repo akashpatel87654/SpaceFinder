@@ -19,11 +19,20 @@ namespace SpaceFinder.Controllers
 
         public ActionResult Index(string searchText)
         {
-            var result = _homeRepository.GetCompanies(searchText);
-            if (!string.IsNullOrEmpty(searchText))
-            {
-                ViewBag.Name = searchText;
-            }
+            //var result = _homeRepository.GetCompanies(searchText);
+            //if (!string.IsNullOrEmpty(searchText))
+            //{
+            //    ViewBag.Name = searchText;
+            //}
+            //return View(result);
+
+            var result = _homeRepository.GetTopCompanies();
+            return View(result);
+        }
+
+        public ActionResult CompanyDetail(int id)
+        {
+            var result = _homeRepository.GetCompanies(null);
             return View(result);
         }
 

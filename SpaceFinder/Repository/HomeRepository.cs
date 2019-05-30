@@ -79,5 +79,19 @@ namespace SpaceFinder.Repository
 
             return new List<DashboardViewModel>();
         }
+
+        public List<DashboardViewModel> GetTopCompanies()
+        {
+            return (from company in _context.Companies
+                    orderby company.TotalProjects
+                    select new DashboardViewModel()
+                    {
+                        CompanyId = company.CompanyId,
+                        CompanyName = company.Name,
+                        Email = company.Email,
+                        Address = company.Address,
+                        ContactNo = company.ContactNo
+                    }).ToList();
+        }
     }
 }

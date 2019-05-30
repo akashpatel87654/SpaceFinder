@@ -14,6 +14,9 @@ namespace SpaceFinder.Entity
         public int Customers { get; set; }
         public int Awards { get; set; }
         public string Description { get; set; }
+        public string Email { get; set; }
+        public string Address { get; set; }
+        public string ContactNo { get; set; }
         public List<ProjectViewModel> Projects { get; set; }
     }
 

@@ -11,6 +11,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="~/Scripts/Custom/aos.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
     <style>
         .container {
             max-width: 100%;
@@ -124,6 +125,10 @@
             content: counter(tableCount);
             counter-increment: tableCount;
         }
+
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -177,7 +182,7 @@
                             }
 
                             <td>
-                                <a href="~/User/Edit/@obj.UserId" title="Edit"><i class="icon-pencil text-info"></i></a> |
+                                <a title="Edit" onclick="EditUser(@obj.UserId)"><i class="icon-pencil text-info"></i></a> |
                                 <a href="~/User/Delete/@obj.UserId" title="Delete"><i class="icon-trash text-danger"></i></a>
                             </td>
                         </tr>
@@ -195,15 +200,9 @@
         $('#Users').DataTable({
             "dom": '<lf<t>ip>'
         });
-    });
 
-    $('#addUser').click(function () {
-        $('#UserAddEditModal').modal('show');
-    });
-
-    $('#btnSubmit').click(function () {
-        debugger;
-        $('#userForm').validate({ // initialize the plugin
+        $('#txtRole-error').text("");
+        $("form[name='registration']").validate({ // initialize the plugin
             rules: {
                 FirstName: {
                     required: true,
@@ -220,17 +219,140 @@
                 Password: {
                     required: true,
                     maxlength: 12,
-                    minlenght : 4
+                    minlenght: 4
                 },
                 Email: {
                     email: true
                 }
             },
-            submitHandler: function (form) { // for demo
-                alert('valid form submitted'); // for demo
-                return false; // for demo
+            messages: {
+                FirstName:
+                {
+                    required: "Please enter your first name",
+                    maxlength: "first name length should be 6 characters."
+                },
+                LastName:
+                {
+                    required: "Please enter your last name",
+                    maxlength: "last name length should be 6 characters."
+                },
+                UserName:
+                {
+                    required: "Please enter your user name",
+                    maxlength: "user name length should be 10 characters."
+                },
+                Password: {
+                    required: "Please enter password",
+                    minlength: "Your password must be at least 4 characters long",
+                    maxlength: "password length should be 12 characters."
+                },
+                Email: "Please enter a valid email address"
+            },
+            submitHandler: function (form) {
+                debugger;
+                alert('valid form submitted');
+                return false;
             }
         });
-
     });
+
+    $('#addUser').click(function () {
+        $('#UserId').val('');
+        $('#txtFirstName').val('');
+        $('#txtLastName').val('');
+        $('#txtUserName').val('');
+        $('#txtPassword').val('');
+        $('#txtEmail').val('');
+        $('#roleDrp').val('');
+        $('#modalTitle').text("Add User");
+        $('#btnSubmit').val('Add');
+        $('#UserAddEditModal').modal('show');
+    });
+
+    $('#btnSubmit').click(function (e) {
+        e.preventDefault();
+        if ($('#roleDrp').val() == '') {
+            $('#txtRole-error').text("Please select role.");
+            return false;
+        }
+        else {
+            debugger;
+            var model = {
+                UserId : $('#UserId').val(),
+                FirstName: $('#txtFirstName').val(),
+                LastName: $('#txtLastName').val(),
+                UserName: $('#txtUserName').val(),
+                Password: $('#txtPassword').val(),
+                Email: $('#txtEmail').val(),
+                RoleId: $('#roleDrp').val()
+            };
+
+            var url = '@Url.Action("Edit", "User")';
+            if (model.UserId == "") {
+                url = '@Url.Action("Create", "User")';
+            }
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify({ model: model }),
+                success: function (response) {
+                    debugger;
+                    if (response) {
+                        $('#txtFirstName').val('');
+                        $('#txtLastName').val('');
+                        $('#txtUserName').val('');
+                        $('#txtPassword').val('');
+                        $('#txtEmail').val('');
+                        $('#roleDrp').val('');
+
+                        $('#UserAddEditModal').modal('hide');
+                        window.location.reload();
+                    }
+                    else {
+                        $('#model-error').text("Something went wrong.Please try again.");
+                        return false;
+                    }
+                },
+                error: function (data) {
+                },
+            })
+        }
+    });
+
+    function EditUser(userId) {
+        $.ajax({
+            url: '@Url.Action("GetUserById", "User")',
+            type: "POST",
+            cache: false,
+            contentType: "application/json",
+            dataType: 'json',
+            data: JSON.stringify({ id: userId }),
+            success: function (response) {
+                debugger;
+                if (response != null) {
+                    $('#UserId').val(response.UserId);
+                    $('#txtFirstName').val(response.FirstName);
+                    $('#txtLastName').val(response.LastName);
+                    $('#txtUserName').val(response.UserName);
+                    $('#txtPassword').val(response.Password);
+                    $('#txtEmail').val(response.Email);
+                    $('#roleDrp').val(response.RoleId);
+                    $('#modalTitle').text("Edit User");
+                    $('#btnSubmit').val('Update');
+                    $('#UserAddEditModal').modal('show');
+                }
+                else {
+                    $('#model-error').text("Something went wrong.Please try again.");
+                    return false;
+                }
+            },
+            error: function (data) {
+                debugger;
+            },
+        });
+    }
 </script>

@@ -10,5 +10,6 @@ namespace SpaceFinder.Repository
     public interface IHomeRepository
     {
         List<DashboardViewModel> GetCompanies(string name);
+        List<DashboardViewModel> GetTopCompanies();
     }
 }

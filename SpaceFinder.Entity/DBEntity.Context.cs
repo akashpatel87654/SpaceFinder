@@ -51,7 +51,6 @@ namespace SpaceFinder.Entity
             }
         }
 
-
         #region Users
 
         public List<UserViewModel> GetUsers()

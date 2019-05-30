@@ -10,5 +10,8 @@ namespace SpaceFinder.Repository
     public interface IUserRepository
     {
         List<UserViewModel> GetUsers();
+        void InsertUser(User user);
+        User GetUserById(int id);
+        void UpdateUser(User user);
     }
 }
